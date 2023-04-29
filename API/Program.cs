@@ -17,6 +17,7 @@ builder.Services.AddDbContext<StoreContext>(opt => {
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+builder.Services.AddCors();
 
 // We build our application and store the build in a variable
 var app = builder.Build();
@@ -29,7 +30,9 @@ if (app.Environment.IsDevelopment())
 }
 
 //app.UseHttpsRedirection();
-
+app.UseCors(opt => {
+    opt.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+});
 app.UseAuthorization();
 
 app.MapControllers();
